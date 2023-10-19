@@ -1,4 +1,4 @@
-function Get-CpNetworkDevices {
+function Get-CpNetworkDeviceGroups {
   [CmdletBinding()]
   param (
     [Parameter(
@@ -36,7 +36,7 @@ function Get-CpNetworkDevices {
     [String]$Filter = [System.Web.HttpUtility]::UrlEncode(($Filter | ConvertTo-Json -Depth 100))
   }
 
-  $uri = [Uri]"https://$($Session.Hostname)/api/network-device?filter=$($Filter)&sort=+$($Sort)&offset=$($OffSet)&limit=$($Limit)"
+  $uri = [Uri]"https://$($Session.Hostname)/api/network-device-group?filter=$($Filter)&sort=+$($Sort)&offset=$($OffSet)&limit=$($Limit)"
 
   $headers = @{
     "Authorization" = "Bearer $($Session.AccessToken)"
@@ -54,19 +54,15 @@ function Get-CpNetworkDevices {
     $response = Invoke-RestMethod @params
 
     $response.'_embedded'.items | ForEach-Object {
-      $networkDevice = [NetworkDevice]@{
+      $networkDeviceGroup = [NetworkDeviceGroup]@{
         Id              = $_.id
         Name            = $_.name
         Description     = $_.description
-        IpAddress       = $_.ip_address
-        VendorName      = $_.vendor_name
-        CoaCapable      = $_.coa_capable
-        CoaPort         = $_.coa_port
-        RadsecEnabled   = $_.radsec_enabled
-        Attributes      = $_.attributes
+        GroupFormat     = $_.group_format
+        Value           = $_.value
       }
       
-      Write-Output $networkDevice
+      Write-Output $networkDeviceGroup
     }
   }
   catch {

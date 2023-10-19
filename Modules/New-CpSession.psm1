@@ -51,6 +51,8 @@ function New-CpSession {
       ExpiresIn   = $response.expires_in
     }
 
+    $global:CpSession = $session
+
     Write-Output $session
   }
   catch {

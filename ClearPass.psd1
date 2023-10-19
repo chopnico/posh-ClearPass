@@ -33,7 +33,7 @@ Copyright = '(c) AudiaCloud. All rights reserved.'
 Description = 'A module for interacting with a ClearPass appliance.'
 
 # Minimum version of the PowerShell engine required by this module
-#PowerShellVersion = ''
+# PowerShellVersion = ''
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
@@ -51,7 +51,7 @@ Description = 'A module for interacting with a ClearPass appliance.'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @()
+# RequiredModules = @()
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -68,7 +68,15 @@ ScriptsToProcess = @('./Initialize.ps1')
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @(
     './Modules/New-CpSession.psm1',
-    './Modules/Get-CpNetworkDevices.psm1'
+    './Modules/New-CpNetworkDevice.psm1',
+    './Modules/Get-CpNetworkDevices.psm1',
+    './Modules/Remove-CpNetworkDevice.psm1',
+    './Modules/New-CpNetworkDeviceGroup.psm1',
+    './Modules/Get-CpNetworkDeviceGroups.psm1',
+    './Modules/Remove-CpNetworkDeviceGroup.psm1',
+    './Modules/Get-CpEndpoints.psm1',
+    './Modules/New-CpEndpoint.psm1',
+    './Modules/Remove-CpEndpoint.psm1'
 )
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.

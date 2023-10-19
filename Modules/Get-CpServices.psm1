@@ -1,4 +1,4 @@
-function Get-CpNetworkDevices {
+function Get-CpServices {
   [CmdletBinding()]
   param (
     [Parameter(
@@ -36,7 +36,7 @@ function Get-CpNetworkDevices {
     [String]$Filter = [System.Web.HttpUtility]::UrlEncode(($Filter | ConvertTo-Json -Depth 100))
   }
 
-  $uri = [Uri]"https://$($Session.Hostname)/api/network-device?filter=$($Filter)&sort=+$($Sort)&offset=$($OffSet)&limit=$($Limit)"
+  $uri = [Uri]"https://$($Session.Hostname)/api/config/service?filter=$($Filter)&sort=+$($Sort)&offset=$($OffSet)&limit=$($Limit)"
 
   $headers = @{
     "Authorization" = "Bearer $($Session.AccessToken)"

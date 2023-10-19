@@ -1,4 +1,4 @@
-function Get-CpNetworkDevices {
+function Get-CpEndpoints {
   [CmdletBinding()]
   param (
     [Parameter(
@@ -24,7 +24,7 @@ function Get-CpNetworkDevices {
     [Parameter(
       Mandatory = $false,
       HelpMessage = "Sort ordering for returned items.")]
-    [String]$Filter="{}",
+    [PSObject]$Filter="{}",
 
     [Parameter(
       Mandatory = $false,
@@ -36,7 +36,7 @@ function Get-CpNetworkDevices {
     [String]$Filter = [System.Web.HttpUtility]::UrlEncode(($Filter | ConvertTo-Json -Depth 100))
   }
 
-  $uri = [Uri]"https://$($Session.Hostname)/api/network-device?filter=$($Filter)&sort=+$($Sort)&offset=$($OffSet)&limit=$($Limit)"
+  $uri = [Uri]"https://$($Session.Hostname)/api/endpoint?filter=$($Filter)&sort=+$($Sort)&offset=$($OffSet)&limit=$($Limit)"
 
   $headers = @{
     "Authorization" = "Bearer $($Session.AccessToken)"
@@ -54,19 +54,16 @@ function Get-CpNetworkDevices {
     $response = Invoke-RestMethod @params
 
     $response.'_embedded'.items | ForEach-Object {
-      $networkDevice = [NetworkDevice]@{
-        Id              = $_.id
-        Name            = $_.name
-        Description     = $_.description
-        IpAddress       = $_.ip_address
-        VendorName      = $_.vendor_name
-        CoaCapable      = $_.coa_capable
-        CoaPort         = $_.coa_port
-        RadsecEnabled   = $_.radsec_enabled
-        Attributes      = $_.attributes
+      $endpoint = [Endpoint]@{
+        Id                = $_.id
+        MacAddress        = $_.mac_address
+        Description       = $_.description
+        Status            = $_.status
+        DeviceInsightTags = $_.device_insight_tags
+        Attributes        = $_.attributes
       }
       
-      Write-Output $networkDevice
+      Write-Output $endpoint
     }
   }
   catch {

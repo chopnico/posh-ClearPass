@@ -4,3 +4,7 @@ ForEach($class in $classes){
     Write-Verbose "Importing classs $($class)"
     . $class.FullName
 }
+
+if(-not $global:CpSession){
+    $global:CpSession = [Session]::new()
+}
